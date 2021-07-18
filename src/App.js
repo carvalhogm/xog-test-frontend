@@ -1,24 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { createContext, useState } from "react";
+import ReactMarkdown from "react-markdown";
+import NoteCanvas from "./components/NoteCanvas";
+import "./App.css";
+
+const APP_DEFAULT_STATE = {
+  state: {
+    notes: []
+  },
+  setState: () => {},
+};
+
+export const AppContext = createContext(APP_DEFAULT_STATE);
 
 function App() {
+  const [state, setState] = useState(APP_DEFAULT_STATE.state);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <AppContext.Provider
+      value={{
+        state,
+        setState,
+      }}
+    >
+      <div className="App">
+        <NoteCanvas />
+      </div>
+    </AppContext.Provider>
   );
 }
 
